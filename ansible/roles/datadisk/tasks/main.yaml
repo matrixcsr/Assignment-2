@@ -1,0 +1,6 @@
+---
+- name: Partition and mount the data disk
+  include_tasks: "{{ item }}"
+  loop:
+    - ./create_partitions.yml
+    - ./mount_partitions.yml

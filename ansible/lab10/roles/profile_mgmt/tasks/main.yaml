@@ -1,0 +1,30 @@
+- name: Add text to /etc/profile
+  block:
+    - name: Add TMOUT to /etc/profile
+      lineinfile:
+        path: /etc/profile
+        line: 'export TMOUT=900'
+        create: true
+      register: result_add_tmout
+
+    - name: Replace umask in /etc/profile
+      replace:
+        path: /etc/profile
+        regexp: '^umask.*$'
+        replace: 'umask 0077'
+      register: result_replace_umask
+
+  rescue:
+    - name: Add umask to ~/.bash_profile
+      blockinfile:
+        path: ~/.bash_profile
+        block: |
+          # Add umask
+          umask 0066
+      register: result_add_umask
+
+  always:
+    - name: Display message
+      debug:
+        msg: "Playbook execution completesd."
+

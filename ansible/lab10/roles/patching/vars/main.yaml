@@ -1,0 +1,11 @@
+---
+# Variables for patching role
+
+# Define the packages to be updated
+packages_to_update:
+  - '*'
+  
+# Define the reboot flag file
+reboot_flag_file: /var/run/reboot-required
+
+

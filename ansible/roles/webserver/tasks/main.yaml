@@ -1,0 +1,34 @@
+---
+- name: Install and start Apache web server
+  hosts: linux
+  become: true
+
+  tasks:
+    - name: Install Apache web server
+      package:
+        name: httpd
+        state: present
+
+    - name: Start Apache web server and enable at boot
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Create HTML files with hostnames on the automation server
+      template:
+        src: vm_hostname.j2
+        dest: "/tmp/{{ inventory_hostname }}.html"
+      delegate_to: localhost
+
+    - name: Copy HTML files to the managed nodes
+      copy:
+        src: "/tmp/{{ inventory_hostname }}.html"
+        dest: "/var/www/html/index.html"
+        mode: 0444
+
+    - name: Remove temporary HTML files
+      file:
+        path: "/tmp/{{ inventory_hostname }}.html"
+        state: absent
+      delegate_to: localhost

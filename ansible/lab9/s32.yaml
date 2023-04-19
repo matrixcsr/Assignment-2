@@ -1,0 +1,11 @@
+---
+- name: Show nodes with a certain fact
+  hosts: localhost
+  gather_facts: yes
+
+  tasks:
+    - name: Display nodes with a certain fact
+      debug:
+        msg: "{{ inventory_hostname }} has the fact 'rahul8359'"
+      when: "'rahul8359' in ansible_facts.keys()"
+

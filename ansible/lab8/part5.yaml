@@ -1,0 +1,19 @@
+---
+- name: 
+  hosts: 20.220.81.208
+  become: true
+  remote_user: rahul8359
+  vars:
+    bind_package: bind
+    evolution_package: evolution
+  tasks:
+    - name: Install bind package
+      package:
+        name: "{{ bind_package }}"
+        state: latest
+
+    - name: Install evolution package
+      package:
+        name: "{{ evolution_package }}"
+        state: latest
+

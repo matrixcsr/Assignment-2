@@ -1,0 +1,21 @@
+---
+# Handlers for patching role
+
+# Define the reboot handler
+# Reboot if required
+- name: reboot if required
+  shell: "/sbin/shutdown -r +1 'Ansible: system reboot required'"
+  async: 0
+  poll: 0
+  listen: reboot_now
+
+
+# Define the task that triggers the reboot handler
+- name: Reboot if required
+  command: echo "system requires a reboot"
+  async: 0
+  poll: 0
+  changed_when: reboot_required.changed == true
+  notify: reboot_now
+
+

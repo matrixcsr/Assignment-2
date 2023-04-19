@@ -1,0 +1,19 @@
+---
+- name: Install nmap package conditionally
+  hosts: localhost
+  become: yes
+
+  vars:
+    packages:
+      - nmap
+      - netcat
+
+  tasks:
+    - name: Install packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ packages }}"
+      when: item in packages
+
+

@@ -1,0 +1,12 @@
+[linux]
+linuxmatrix8359@matrix8359-0-gov.canadaeast.cloudapp.azure.com
+linuxmatrix8359@matrix8359-1-gov.canadaeast.cloudapp.azure.com
+
+[os:children]
+linux
+
+
+#ansible_become=true
+#ansible_become_method=runas
+#ansible_become_user=rahul8359
+#ansible_become_password="Sherway938"

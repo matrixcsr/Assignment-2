@@ -1,0 +1,8 @@
+---
+# Handlers for syslog_updates role
+
+- name: restart rsyslog service
+  service:
+    name: rsyslog
+    state: restarted
+

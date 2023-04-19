@@ -1,0 +1,43 @@
+- name: Demonstrate management of files and folders
+  hosts: ec2-user@ec2-54-83-174-153.compute-1.amazonaws.com
+  become: true
+  tasks:
+    - name: Create an empty file on the automation machine
+      file:
+        path: /tmp/locfile
+        state: touch
+
+    - name: Copy locfile to the managed nodes
+      copy:
+        src: /tmp/locfile
+        dest: /tmp/locfile
+        owner: "ec2-user"
+        mode: '0444'
+        remote_src: yes
+
+    - name: Set SELinux file type on /tmp/locfile
+      sefcontext:
+        target: /tmp/locfile
+        setype: etc_t
+
+    - name: Display status of /tmp/locfile
+      stat:
+        path: /tmp/locfile
+      register: result_locfile
+
+    - name: Create an empty file in the home directory
+      file:
+        path: ~/emptyfile
+        state: touch
+        mode: '0644'
+        owner: "ec2-user"
+
+    - name: Display status of ~/emptyfile
+      stat:
+        path: ~/emptyfile
+      register: result_emptyfile
+
+    - name: Display task results
+      debug:
+        msg: "Result of managing files and folders:\n{{ result_locfile.stat }}\n{{ result_emptyfile.stat }}"
+

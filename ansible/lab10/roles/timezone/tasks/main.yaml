@@ -1,0 +1,6 @@
+- name: Set timezone
+  timezone:
+    name: "{{ timezone }}"
+  when: ansible_distribution == 'Amazon' and ansible_os_family == 'RedHat'
+  become: true
+

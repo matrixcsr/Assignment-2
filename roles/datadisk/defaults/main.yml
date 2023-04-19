@@ -1,0 +1,12 @@
+---
+# defaults/main.yml
+part1_size: 40%
+part1_fs_type: xfs
+part1_mount_point: /part1
+
+part2_size: 50%
+part2_fs_type: ext4
+part2_mount_point: /part2
+
+data_disk: sdc
+

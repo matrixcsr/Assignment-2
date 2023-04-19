@@ -1,0 +1,25 @@
+---
+- name: Create mount directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /part1
+    - /part2
+
+- name: Mount XFS partition on /part1
+  ansible.builtin.mount:
+    path: /part1
+    src: /dev/sdc1
+    fstype: xfs
+    state: mounted
+    opts: defaults
+
+- name: Mount EXT4 partition on /part2
+  ansible.builtin.mount:
+    path: /part2
+    src: /dev/sdc2
+    fstype: ext4
+    state: mounted
+    opts: defaults
+

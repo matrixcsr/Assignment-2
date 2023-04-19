@@ -1,0 +1,42 @@
+- name: Demonstrate handling of task failures
+  hosts: linux
+  tasks:
+    - name: Configure /etc/profile
+      block:
+        - name: Add TMOUT variable to /etc/profile
+          lineinfile:
+            path: /etc/profile
+            line: 'export TMOUT=900'
+          register: result_tmout
+
+        - name: Replace umask in /etc/profile
+          replace:
+            path: /etc/profile
+            regexp: '^umask .*'
+            replace: 'umask 0077'
+          register: result_umask
+
+      rescue:
+        - name: Configure ~/.bash_profile on failure
+          block:
+            - name: Add umask variable to ~/.bash_profile
+              lineinfile:
+                path: ~/.bash_profile
+                line: 'umask 0066'
+            - name: Display failure message
+              debug:
+                msg: 'Failed to configure /etc/profile'
+
+        - name: Display error message
+          debug:
+            msg: 'An error occurred while configuring /etc/profile'
+
+      always:
+        - name: Display completion message
+          debug:
+            msg: 'Ansible playbook completed successfully.'
+
+    - name: Display task results
+      debug:
+        msg: "Result of configuring /etc/profile:\n{{ result_tmout.msg }}\n{{ result_umask.msg }}"
+

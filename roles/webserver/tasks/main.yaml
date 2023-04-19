@@ -1,0 +1,32 @@
+---
+- name: Install and configure Apache web server
+  package:
+    name: httpd
+    state: latest
+
+- name: Create files on the automation server
+  copy:
+    content: "{{ inventory_hostname }}"
+    dest: "/tmp/test.html"
+  delegate_to: localhost
+  become: no
+
+- name: Create the directory for index file
+  file:
+    path: "/tmp/test.html"
+    state: directory
+    mode: 0755
+
+- name: Copy the files to respective managed nodes
+  copy:
+    src: "/tmp/test.html"
+    dest: /var/www/html/index.html
+    remote_src: yes
+
+- name: Start the Apache web server
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+  notify: restart apache
+

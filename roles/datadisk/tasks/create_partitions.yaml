@@ -1,0 +1,31 @@
+---
+- name: Install required packages
+  ansible.builtin.package:
+    name:
+      - parted
+      - xfsprogs
+      - e2fsprogs
+    state: present
+
+- name: Get disk information
+  ansible.builtin.command: parted /dev/sdb print
+  register: disk_info
+  changed_when: false
+
+- name: Create 4 GB partition
+  ansible.builtin.command: parted /dev/sdb mkpart primary 0% 4GiB
+  when: "'/dev/sdb1' not in disk_info.stdout"
+
+- name: Create 5 GB partition
+  ansible.builtin.command: parted /dev/sdb mkpart primary 4GiB 9GiB
+  when: "'/dev/sdb2' not in disk_info.stdout"
+
+- name: Initialize XFS filesystem on /dev/sdb1
+  ansible.builtin.filesystem:
+    fstype: xfs
+    dev: /dev/sdb1
+
+- name: Initialize EXT4 filesystem on /dev/sdb2
+  ansible.builtin.filesystem:
+    fstype: ext4
+    dev: /dev/sdb2

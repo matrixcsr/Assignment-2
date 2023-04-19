@@ -1,0 +1,51 @@
+---
+- name: Install required packages
+  ansible.builtin.package:
+    name:
+      - parted
+      - xfsprogs
+      - e2fsprogs
+    state: present
+
+
+- name: Create 4 GB partition
+  ansible.builtin.command: parted /dev/sdc mkpart primary 0% 4GiB
+  register: parted_output
+  until: "'Partition created' in parted_output.stdout"
+  retries: 3
+  delay: 5
+
+- name: Initialize XFS filesystem on /dev/sdc1
+  ansible.builtin.filesystem:
+    fstype: xfs
+    dev: /dev/sdc1
+
+- name: Initialize EXT4 filesystem on /dev/sdc2
+  ansible.builtin.filesystem:
+    fstype: ext4
+    dev: /dev/sdc2
+
+- name: Create mount directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /part1
+    - /part2
+
+- name: Mount XFS partition on /part1
+  ansible.builtin.mount:
+    path: /part1
+    src: /dev/sdc1
+    fstype: xfs
+    state: mounted
+    opts: defaults
+
+- name: Mount EXT4 partition on /part2
+  ansible.builtin.mount:
+    path: /part2
+    src: /dev/sdc2
+    fstype: ext4
+    state: mounted
+    opts: defaults
+

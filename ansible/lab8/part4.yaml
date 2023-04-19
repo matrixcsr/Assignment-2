@@ -1,0 +1,34 @@
+- name: Part 1 - In-playbook variable definitions
+  hosts: 20.220.81.208
+  remote_user: rahul8359
+  gather_facts: no
+  become: true
+  vars_files:
+    - part4vars.yaml
+  tasks:
+    - name: Create group {{ grouplist1 }}
+      group:
+        name: "{{ grouplist1 }}"
+        state: present
+
+    - name: Create group {{ grouplist2 }}
+      group:
+        name: "{{ grouplist2 }}"
+        state: present
+
+    - name: Create user {{ userlist1 }}
+      user:
+        name: "{{ userlist1 }}"
+        uid: 1800
+        groups: "{{ grouplist1 }}"
+        state: present
+
+    - name: Create user {{ userlist2 }}
+      user:
+        name: "{{ userlist2 }}"
+        uid: 1900
+        shell: /bin/bash
+        home: "/home/{{ userlist2 }}"
+        groups: "{{ grouplist2 }}"
+        state: present
+

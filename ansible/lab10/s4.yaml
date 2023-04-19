@@ -1,0 +1,9 @@
+- name: Manage packages and patches
+  hosts: all
+  become: true
+  
+  roles:
+    - package_remove
+    - package_install
+    - patching
+

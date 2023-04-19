@@ -1,0 +1,11 @@
+---
+- name: Install ypserv package
+  hosts: linux
+  become: true
+  remote_user: rahul8359
+  tasks:
+    - name: Install packages
+      yum:
+        name: "{{ packages }}"
+        state: latest
+

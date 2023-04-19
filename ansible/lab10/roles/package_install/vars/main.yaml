@@ -1,0 +1,8 @@
+---
+# Define packages to install
+packages:
+  - cifs-utils
+  - nfs-utils
+  - audit
+  - chrony
+

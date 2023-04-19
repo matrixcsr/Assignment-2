@@ -1,0 +1,23 @@
+- name: permission stuff
+  hosts: linux
+  become: true
+  remote_user: rahul8359
+  tasks:
+    - name: Copy /etc/issue and change ownership and permissions
+      copy:
+        src: /etc/issue
+        dest: /etc/issue
+        owner: user4000
+        group: cloudadmins
+        mode: 444
+        remote_src: yes
+
+- name: timezone stuff
+  hosts: linux
+  become: true
+  remote_user: rahul8359
+  tasks:
+    - name: Set timezone to America/Edmonton
+      timezone:
+        name: America/Edmonton
+

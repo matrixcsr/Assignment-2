@@ -1,0 +1,25 @@
+---
+- name: Install package with verbose output
+  hosts: localhost
+  become: yes
+  vars:
+    package_name: nginx
+
+  tasks:
+    - name: Install package
+      apt:
+        name: "{{ package_name }}"
+        state: present
+        update_cache: yes
+        cache_valid_time: 3600
+      register: package_output
+
+    - name: Display entire task output
+      debug:
+        var: package_output
+
+    - name: Display package names
+      debug:
+        msg: "{{ package_output.packages[item].name }}"
+      
+

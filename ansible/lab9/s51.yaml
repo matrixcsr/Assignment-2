@@ -1,0 +1,31 @@
+---
+- name: Install and configure Apache web server
+  hosts: localhost
+  become: yes
+
+  vars:
+    hostname: "{{ inventory_hostname }}"
+
+  tasks:
+    - name: Install Apache web server
+      apt:
+        name: apache2
+        state: present
+
+    - name: Add hostname to index.html
+      lineinfile:
+        path: /var/www/html/index.html
+        line: "Hostname: {{ hostname }}"
+        insertafter: "<body>"
+        state: present
+
+    - name: Enable Apache service to auto-start on system reboots
+      systemd:
+        name: apache2
+        enabled: yes
+
+    - name: Start Apache service
+      systemd:
+        name: apache2
+        state: started
+

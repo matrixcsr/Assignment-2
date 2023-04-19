@@ -1,0 +1,40 @@
+---
+# Tasks for syslog_updates role
+- name: Install rsyslog package
+  yum:
+    name: rsyslog
+    state: present
+
+- name: Create rsyslog.conf file if it doesn't exist
+  file:
+    path: /etc/rsyslog.conf
+    state: touch
+
+- name: Add text to /etc/rsyslog.conf
+  lineinfile:
+    path: /etc/rsyslog.conf
+    line: "$FileCreateMode 0640"
+    insertafter: EOF
+  register: result_add_text
+
+- name: Set ownership, group and permissions of /etc/rsyslog.d
+  file:
+    path: /etc/rsyslog.d
+    owner: root
+    group: root
+    mode: "0640"
+    recurse: yes
+  register: result_set_perms
+
+- name: Set permissions of /var/log
+  file:
+    path: /var/log
+    mode: "0775"
+  register: result_set_log_perms
+
+- name: Restart rsyslog service
+  service:
+    name: rsyslog
+    state: restarted
+
+

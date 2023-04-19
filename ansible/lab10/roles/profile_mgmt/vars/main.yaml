@@ -1,0 +1,7 @@
+---
+# Variables for configuring /etc/profile
+
+tmout_value: 900
+umask_value: 0077
+
+

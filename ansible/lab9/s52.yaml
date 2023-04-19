@@ -1,0 +1,59 @@
+---
+- name: Install and configure Apache and MariaDB servers
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Install Apache web server
+      apt:
+        name: apache2
+        state: present
+
+      notify:
+        - start apache
+
+    - name: Install MariaDB server
+      apt:
+        name: mariadb-server
+        state: present
+
+      notify:
+        - start mariadb
+
+    - name: Enable Apache service to auto-start on system reboots
+      systemd:
+        name: apache2
+        enabled: yes
+
+      notify:
+        - enable apache
+
+    - name: Enable MariaDB service to auto-start on system reboots
+      systemd:
+        name: mariadb
+        enabled: yes
+
+      notify:
+        - enable mariadb
+
+  handlers:
+    - name: start apache
+      systemd:
+        name: apache2
+        state: started
+
+    - name: start mariadb
+      systemd:
+        name: mariadb
+        state: started
+
+    - name: enable apache
+      systemd:
+        name: apache2
+        enabled: yes
+
+    - name: enable mariadb
+      systemd:
+        name: mariadb
+        enabled: yes
+

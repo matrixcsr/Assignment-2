@@ -1,0 +1,50 @@
+---
+# tasks/main.yml
+- name: Ensure required packages are installed
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - parted
+    - xfsprogs
+    - e2fsprogs
+
+- name: Create partitions
+  parted:
+    device: "/dev/{{ data_disk }}"
+    number: "{{ item.number }}"
+    state: present
+    part_start: "{{ item.start }}"
+    part_end: "{{ item.end }}"
+  loop:
+    - number: 1
+      start: 0%
+      end: "{{ part1_size }}"
+    - number: 2
+      start: "{{ part1_size }}"
+      end: 100%
+
+- name: Create filesystems
+  filesystem:
+    fstype: "{{ item.fstype }}"
+    dev: "/dev/{{ data_disk }}{{ item.number }}"
+  loop:
+    - fstype: "{{ part1_fs_type }}"
+      number: 1
+    - fstype: "{{ part2_fs_type }}"
+      number: 2
+
+- name: Mount partitions
+  mount:
+    path: "{{ item.path }}"
+    src: "/dev/{{ data_disk }}{{ item.number }}"
+    fstype: "{{ item.fstype }}"
+    state: mounted
+  loop:
+    - path: "{{ part1_mount_point }}"
+      fstype: "{{ part1_fs_type }}"
+      number: 1
+    - path: "{{ part2_mount_point }}"
+      fstype: "{{ part2_fs_type }}"
+      number: 2
+

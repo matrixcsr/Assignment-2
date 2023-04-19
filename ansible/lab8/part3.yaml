@@ -1,0 +1,17 @@
+- name: create stuff
+  hosts: rahul8359@20.220.81.131
+  become: true
+  remote_user: rahul8359
+  tasks:
+    - name: Create devops group
+      group:
+        name: devops
+        state: present
+
+    - name: Create more stuff
+      user:
+        name: devops1
+        uid: 2500
+        groups: devops
+        state: present
+

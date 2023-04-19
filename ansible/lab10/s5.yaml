@@ -1,0 +1,10 @@
+---
+- name: Manage servers
+  hosts: linux
+  become: true
+  roles:
+    - profile_mgmt
+    - package_remove
+    - package_install
+    - patching
+

@@ -1,0 +1,35 @@
+---
+- name: part 1
+  hosts: linux
+  gather_facts: no
+  become: true
+  remote_user: rahul8359
+  vars:
+    grouplist1: group10
+    grouplist2: group20
+  tasks:
+    - name: Create user account
+      user:
+        name: user4000
+        uid: 5000
+    - name: Create group account
+      group:
+        name: "{{ grouplist1 }}"
+        state: present
+    - name: Create group account
+      group:
+        name: "{{ grouplist2 }}"
+        state: present
+    - name: Install stuff
+      yum:
+        name:
+          - httpd
+          - nmap
+        state: latest
+    - name: do stuff
+      systemd:
+        name: httpd
+        state: started
+        enabled: yes
+
+

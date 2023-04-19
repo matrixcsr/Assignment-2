@@ -1,0 +1,31 @@
+---
+- name: Install packages if / file system has 2GB free space
+  hosts: localhost
+  become: yes
+
+  vars:
+    packages:
+      - mariadb-server
+      - dracut
+      - snapd
+
+  tasks:
+    - name: Check disk space
+      shell: "df -BG / | awk '{print $4}' | tail -n1 | sed 's/G//'"
+      register: disk_space_output
+
+    - name: Display available disk space
+      debug:
+        var: disk_space_output.stdout_lines
+
+    - name: Install packages
+      apt:
+        name: "{{ packages }}"
+        state: present
+      when: disk_space_output.stdout_lines[0] | int >= 2
+      register: package_output
+
+    - name: Display package output
+      debug:
+        var: package_output
+

@@ -1,0 +1,14 @@
+---
+- name: Bada bing bada boom
+  hosts:
+    - linux
+  become: yes
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: False
+  become: yes
+  roles:
+    - users
+    - system_profile
+    - webserver
+    - datadisk
+

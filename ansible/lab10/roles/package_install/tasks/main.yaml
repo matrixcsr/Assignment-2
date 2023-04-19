@@ -1,0 +1,11 @@
+- name: Install packages
+  package:
+    name:
+      - cifs-utils
+      - nfs-utils
+      - audit
+      - chrony
+    state: present
+  when: ansible_distribution == 'Amazon' and ansible_os_family == 'RedHat'
+
+

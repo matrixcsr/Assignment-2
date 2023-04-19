@@ -1,0 +1,28 @@
+---
+- name: Create user accounts
+  hosts: localhost
+  become: yes
+
+  vars:
+    start_uid: 5001
+
+  tasks:
+    - name: Create users
+      user:
+        name: "user{{ item }}"
+        uid: "{{ start_uid + item }}"
+        group: users
+        password: ""
+        createhome: yes
+        state: present
+      loop: "{{ range(101, 111) | list }}"
+
+    - name: Display user accounts
+      shell: "cat /etc/passwd | grep user"
+      register: user_output
+
+    - name: Display user account info
+      debug:
+        var: item
+      loop: "{{ user_output.stdout_lines }}"
+

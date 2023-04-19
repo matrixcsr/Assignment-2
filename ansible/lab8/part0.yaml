@@ -1,0 +1,10 @@
+---
+- name: Install stuff
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Use stuff
+      yum:
+        name: cifs-utils
+        state: present
+

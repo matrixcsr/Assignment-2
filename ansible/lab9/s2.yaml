@@ -1,0 +1,14 @@
+---
+- name: Capture and display Ansible facts
+  hosts: localhost
+  gather_facts: yes
+
+  tasks:
+    - name: Display all facts
+      debug:
+        var: ansible_facts
+
+    - name: Display specific facts
+      debug:
+        msg: "{{ ansible_facts['fqdn'] }} {{ ansible_facts['default_ipv4']['address'] }} {{ ansible_facts['hostname'] }}"
+
