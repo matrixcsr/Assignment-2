@@ -8,6 +8,12 @@ resource "azurerm_postgresql_server" "postgresql" {
   administrator_login          = "matrix8359"
   administrator_login_password = "Sherway958"
   ssl_enforcement_enabled      = true
+  tags = {
+    Name              = "Automation Project – Assignment 2"
+    GroupMembers      = "rahul_soni"
+    ExpirationDate    = "2023-06-30"
+    Environment       = "Lab"
+  }
 }
 
 resource "azurerm_postgresql_database" "postgresql_database" {
@@ -16,4 +22,10 @@ resource "azurerm_postgresql_database" "postgresql_database" {
   resource_group_name = var.rg_name
   charset             = "UTF8"
   collation           = "en_US.utf8"
+  tags = {
+    Name              = "Automation Project – Assignment 2"
+    GroupMembers      = "rahul_soni"
+    ExpirationDate    = "2023-06-30"
+    Environment       = "Lab"
+  }
 }

@@ -3,6 +3,12 @@ resource "azurerm_public_ip" "lb_public_ip" {
   location            = var.location
   resource_group_name = var.rg_name
   allocation_method   = "Dynamic"
+  tags = {
+    Name              = "Automation Project – Assignment 2"
+    GroupMembers      = "rahul_soni"
+    ExpirationDate    = "2023-06-30"
+    Environment       = "Lab"
+  }
 }
 
 resource "azurerm_lb" "lb" {
@@ -13,6 +19,12 @@ resource "azurerm_lb" "lb" {
   frontend_ip_configuration {
     name                 = "PublicIPAddress"
     public_ip_address_id = azurerm_public_ip.lb_public_ip.id
+  }
+  tags = {
+    Name              = "Automation Project – Assignment 2"
+    GroupMembers      = "rahul_soni"
+    ExpirationDate    = "2023-06-30"
+    Environment       = "Lab"
   }
 }
 
@@ -31,7 +43,12 @@ resource "azurerm_lb_probe" "http" {
   number_of_probes = 2
   request_path     = "/"
   loadbalancer_id  = azurerm_lb.lb.id
-
+tags = {
+    Name              = "Automation Project – Assignment 2"
+    GroupMembers      = "rahul_soni"
+    ExpirationDate    = "2023-06-30"
+    Environment       = "Lab"
+  }
 }
 
 resource "azurerm_lb_rule" "http" {

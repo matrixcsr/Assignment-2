@@ -4,6 +4,12 @@ resource "azurerm_availability_set" "as" {
   resource_group_name          = var.rg_name
   platform_fault_domain_count  = 2
   platform_update_domain_count = 5
+  tags = {
+    Name           = "Automation Project – Assignment 2"
+    GroupMembers   = "rahul_soni"
+    ExpirationDate = "2023-06-30"
+    Environment    = "Lab"
+  }
 }
 
 resource "azurerm_public_ip" "vm_public_ip" {
@@ -13,6 +19,12 @@ resource "azurerm_public_ip" "vm_public_ip" {
   resource_group_name = var.rg_name
   allocation_method   = "Static"
   domain_name_label   = "${var.dns_label}-${count.index}-gov"
+  tags = {
+    Name           = "Automation Project – Assignment 2"
+    GroupMembers   = "rahul_soni"
+    ExpirationDate = "2023-06-30"
+    Environment    = "Lab"
+  }
 }
 
 resource "azurerm_network_interface" "vm_nic" {
@@ -26,6 +38,12 @@ resource "azurerm_network_interface" "vm_nic" {
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.vm_public_ip[count.index].id
+  }
+  tags = {
+    Name           = "Automation Project – Assignment 2"
+    GroupMembers   = "rahul_soni"
+    ExpirationDate = "2023-06-30"
+    Environment    = "Lab"
   }
 }
 
@@ -63,6 +81,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
     sku       = var.linux_os_information.sku
     version   = var.linux_os_information.version
   }
+  tags = {
+    Name           = "Automation Project – Assignment 2"
+    GroupMembers   = "rahul_soni"
+    ExpirationDate = "2023-06-30"
+    Environment    = "Lab"
+  }
 }
 
 resource "azurerm_virtual_machine_extension" "network_watcher" {
@@ -73,4 +97,10 @@ resource "azurerm_virtual_machine_extension" "network_watcher" {
   type                       = "NetworkWatcherAgentLinux"
   type_handler_version       = "1.4"
   auto_upgrade_minor_version = true
+  tags = {
+    Name           = "Automation Project – Assignment 2"
+    GroupMembers   = "rahul_soni"
+    ExpirationDate = "2023-06-30"
+    Environment    = "Lab"
+  }
 }

@@ -6,6 +6,12 @@ resource "azurerm_managed_disk" "datadisk" {
   storage_account_type = "Standard_LRS"
   create_option      = "Empty"
   disk_size_gb       = var.disk_size_gb
+  tags = {
+    Name              = "Automation Project – Assignment 2"
+    GroupMembers      = "rahul_soni"
+    ExpirationDate    = "2023-06-30"
+    Environment       = "Lab"
+  }
   
 }
 
@@ -18,4 +24,10 @@ resource "azurerm_virtual_machine_data_disk_attachment" "datadisk_attachment" {
   virtual_machine_id = var.vm_ids[count.index]
   lun                = count.index
   caching            = "ReadWrite"
+  tags = {
+    Name              = "Automation Project – Assignment 2"
+    GroupMembers      = "rahul_soni"
+    ExpirationDate    = "2023-06-30"
+    Environment       = "Lab"
+  }
 }

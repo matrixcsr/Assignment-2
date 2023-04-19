@@ -4,6 +4,12 @@ resource "azurerm_availability_set" "as" {
   resource_group_name          = var.rg_name
   platform_fault_domain_count  = 2
   platform_update_domain_count = 5
+  tags = {
+    Name              = "Automation Project – Assignment 2"
+    GroupMembers      = "rahul_soni"
+    ExpirationDate    = "2023-06-30"
+    Environment       = "Lab"
+  }
 }
 
 resource "azurerm_public_ip" "vm_public_ip" {
@@ -12,6 +18,12 @@ resource "azurerm_public_ip" "vm_public_ip" {
   resource_group_name = var.rg_name
   allocation_method   = "Dynamic"
   domain_name_label   = "${var.dns_label}-gov"
+  tags = {
+    Name              = "Automation Project – Assignment 2"
+    GroupMembers      = "rahul_soni"
+    ExpirationDate    = "2023-06-30"
+    Environment       = "Lab"
+  }
 }
 
 resource "azurerm_network_interface" "vm_nic" {
@@ -53,6 +65,12 @@ resource "azurerm_windows_virtual_machine" "vm" {
     offer     = "WindowsServer"
     sku       = "2016-Datacenter"
     version   = "latest"
+  }
+  tags = {
+    Name              = "Automation Project – Assignment 2"
+    GroupMembers      = "rahul_soni"
+    ExpirationDate    = "2023-06-30"
+    Environment       = "Lab"
   }
 
 }

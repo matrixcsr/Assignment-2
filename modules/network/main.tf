@@ -3,6 +3,12 @@ resource "azurerm_virtual_network" "vnet" {
   resource_group_name = var.rg_name
   address_space       = var.vnet_address_space
   location            = var.vnet_location
+  tags = {
+    Name              = "Automation Project – Assignment 2"
+    GroupMembers      = "rahul_soni"
+    ExpirationDate    = "2023-06-30"
+    Environment       = "Lab"
+  }
 }
 
 resource "azurerm_subnet" "subnet" {
@@ -10,6 +16,12 @@ resource "azurerm_subnet" "subnet" {
   name                 = var.subnet_name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = var.subnet_address_prefixes
+  tags = {
+    Name              = "Automation Project – Assignment 2"
+    GroupMembers      = "rahul_soni"
+    ExpirationDate    = "2023-06-30"
+    Environment       = "Lab"
+  }
 }
 resource "azurerm_network_security_group" "network-nsg1" {
   name                = "nsg1"
@@ -39,28 +51,7 @@ resource "azurerm_network_security_group" "network-nsg1" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
-  security_rule {
-    name                       = "rule3"
-    priority                   = 300
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "5985"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-  security_rule {
-    name                       = "rule4"
-    priority                   = 400
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "80"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
+
 }
 resource "azurerm_subnet_network_security_group_association" "network-subnet1-nsg1" {
   subnet_id                 = azurerm_subnet.subnet.id
